@@ -32,15 +32,22 @@ PowerShell odpowiednik wolumenów: `-v "${PWD}/examples:/input:ro" -v "${PWD}:/o
 
 ```sh
 python -m pip install -r requirements-dev.txt
-python -m pytest -q
+python -m pytest -q --junitxml=junit.xml
 ```
 
 Testy jednostkowe sprawdzają detektor i walidację parametrów. Integracyjne uruchamiają
 pełny przepływ plikowy oraz CLI na przykładowym obrazie.
+Raport JUnit zapisuje się jako `junit.xml`.
 
 ## Jenkins
 
 Pipeline wymaga agenta z etykietą `docker`, dostępem do demona Docker i checkoutem repozytorium.
 Buduje target `test`, uruchamia testy w kontenerze, a potem buduje obraz `runtime`.
 Obie wersje współdzielą warstwę zależności, co skraca kompilację i korzysta z cache Dockera.
-Obraz wynikowy pozostaje lokalnie na agencie; publikowanie do rejestru można dodać przez credentials.
+Jenkins publikuje raport JUnit również wtedy, gdy testy zakończą się błędem. Obraz wynikowy
+pozostaje lokalnie na agencie; publikowanie do rejestru można dodać przez credentials.
+
+## Kontrola QA
+
+Zobacz [QA_GUIDE.md](QA_GUIDE.md), gdzie są przypadki do ręcznego sprawdzenia, kryteria akceptacji,
+mapa testów i szablon zgłoszenia błędu.

@@ -24,3 +24,15 @@ def test_cli_reports_missing_input():
     )
     assert run.returncode != 0
     assert "Could not read image" in run.stderr
+
+
+def test_cli_processes_second_sample(tmp_path):
+    output = tmp_path / "checkerboard-edges.png"
+    run = subprocess.run(
+        [sys.executable, "-m", "app", "examples/checkerboard.pgm", "--output", str(output)],
+        capture_output=True, text=True, check=False,
+    )
+    assert run.returncode == 0, run.stderr
+    edges = cv2.imread(str(output), cv2.IMREAD_GRAYSCALE)
+    assert edges is not None and edges.shape == (96, 96)
+    assert cv2.countNonZero(edges) > 0
