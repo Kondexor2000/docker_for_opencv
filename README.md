@@ -18,12 +18,46 @@ python -m app examples/shapes.pgm --output output.png
 Instalacja OpenCV headless nie wymaga graficznego GUI i jest odpowiednia dla kontenerów.
 Warstwy Dockera instalują zależności przed kodem, więc zmiana kodu nie unieważnia cache pip.
 
+## Demonstracja przejazdu kolejowego
+
+Można wygenerować pięć syntetycznych klatek z samochodem, wykryć jego położenie kolorem,
+oszacować prędkość z przesunięcia między klatkami i otrzymać przykładowy dystans hamowania:
+
+```sh
+python -m app.crossing_demo --output-dir examples/crossing_demo
+```
+
+Wynikiem są pięć klatek z przekroczeniem limitu w katalogu głównym oraz pięć klatek bez
+przekroczenia w `within_limit/`; każda sekwencja ma własne `summary.json`. Scena oraz detektor
+są sztuczne;
+pojedyncze zdjęcie nie wystarcza do pomiaru prędkości. Wynik dystansu (około 638 m dla
+założeń widocznych w JSON: 80 km/h, 0,5 m/s², 2 s i 100 m marginesu) jest wyłącznie
+ilustracją wzoru, a nie zaleceniem ani gwarancją bezpiecznej odległości. Nie używać do
+sterowania pociągiem. Rzeczywista ochrona przejazdu wymaga zatwierdzonego systemu kolejowego,
+kalibracji i parametrów hamowania potwierdzonych dla konkretnego składu i toru.
+
 ## Docker
 
 ```sh
 docker build --target runtime -t opencv-edge-mvp .
 docker run --rm -v "$(pwd)/examples:/input:ro" -v "$(pwd):/output" \
   opencv-edge-mvp /input/shapes.pgm --output /output/edges.png
+```
+
+The crossing demo is also available in the runtime image. Mount `examples` as writable
+output and override the default Canny entrypoint:
+
+PowerShell (Windows):
+
+```powershell
+docker run --rm -v "${PWD}/examples:/output" --entrypoint python opencv-edge-mvp -m app.crossing_demo --output-dir /output/crossing_demo
+```
+
+Bash (Linux/macOS):
+
+```sh
+docker run --rm -v "$(pwd)/examples:/output" --entrypoint python opencv-edge-mvp \
+  -m app.crossing_demo --output-dir /output/crossing_demo
 ```
 
 PowerShell odpowiednik wolumenów: `-v "${PWD}/examples:/input:ro" -v "${PWD}:/output"`.

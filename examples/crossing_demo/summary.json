@@ -1,0 +1,20 @@
+{
+  "mode": "synthetic_demo_only_no_train_control",
+  "vehicle_speed_kmh": 72.0,
+  "vehicle_speed_limit_kmh": 50.0,
+  "overspeed_advisory": true,
+  "train_stopping_distance_m_illustrative": 638.3,
+  "assumptions": {
+    "train_speed_kmh": 80.0,
+    "braking_deceleration_mps2": 0.5,
+    "reaction_time_s": 2.0,
+    "safety_margin_m": 100.0
+  },
+  "frames": 5,
+  "output_dir": "/output/crossing_demo",
+  "within_limit_example": {
+    "vehicle_speed_kmh": 36.0,
+    "overspeed_advisory": false,
+    "output_dir": "/output/crossing_demo/within_limit"
+  }
+}

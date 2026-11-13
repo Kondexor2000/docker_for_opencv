@@ -43,8 +43,14 @@ przeglądać i nie wymagają zewnętrznego pobierania danych.
 ## Automatyczna mapa pokrycia
 
 - `tests/test_processor.py`: detekcja, kształt i typ wyniku, walidacja progów oraz zapis pliku.
+- `tests/test_processor.py`: pomiar ruchu w syntetycznych klatkach i obliczenie ilustracyjnego
+  dystansu zatrzymania.
 - `tests/test_cli.py`: CLI end-to-end na fixture’ach i zachowanie dla brakującego wejścia.
 - `Jenkinsfile`: budowa obrazu testowego, testy w kontenerze, raport JUnit i budowa obrazu runtime.
+
+Demonstracja `python -m app.crossing_demo` zapisuje syntetyczne klatki wideo jako obrazy i
+raport JSON. Nie wykrywa rzeczywistych samochodów i nie steruje hamowaniem; przykładowe
+założenia dystansu nie mogą służyć do projektowania ani eksploatacji zabezpieczeń kolejowych.
 
 ## Szablon zgłoszenia błędu
 
